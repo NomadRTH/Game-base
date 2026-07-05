@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'games/style3.css' %}">
+    <title>Вход/Регистрация</title>
+</head>
+<body>
+
+    <div class="auth-container">
+        <h1>Вход</h1>
+
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.username }}
+            {{ form.password }}
+            <input type="submit" value="Войти">
+        </form>
+
+        <a href="{% url 'games:register' %}" class="back-home">Зарегестрироватья</a>
+    </div>
+
+</body>
+</html>

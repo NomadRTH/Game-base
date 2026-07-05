@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ game.title }}</title>
+    <link rel="stylesheet" href="{% static 'games/style2.css' %}">
+</head>
+<body>
+
+    <div class="header">
+        <h1>🎮 Игровая база</h1>
+    </div>
+
+    <div class="detail-container">
+       <a href="{% url 'games:index' %}" class="back-link">← Назад к списку</a>
+
+        <div class="detail-card">
+            {% if game.poster_url %}
+                <img src="{{ game.poster_url }}" alt="{{ game.title }}" class="detail-poster">
+            {% endif %}
+            
+            <h2>{{ game.title }}</h2>
+            <div class="game-meta">{{ game.genre }} • {{ game.year_of_release }}</div>
+            <p class="detail-description">{{ game.description }}</p>
+        </div>
+
+        <div class="reviews-section">
+            {% if user.is_authenticated %}
+                <div class="review-form">
+                    <h3>Оставить отзыв</h3>
+                    <form action="{% url 'games:add_review' game.id %}" method="post">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="{{ review.feedback.id_for_label }}">Ваш отзыв</label>
+                        {{ review.feedback }}
+                    </div><br>
+                    
+                    <div class="form-group">
+                        <label for="{{ review.rating.id_for_label }}">Оценка</label>
+                        {{ review.rating }}
+                    </div><br>
+                    
+                        <button type="submit" class="btn-submit">Отправить отзыв</button>
+                    </form><br>
+                </div>
+            {% else %}
+                <p class="login-message">Чтобы оставить отзыв, войдите или зарегистрируйтесь.</p>
+            {% endif %}
+            {% if game.review_set.all %}
+                {% for review in game.review_set.all %}
+                    <div class="review-card">   
+                        <div class="review-rating">{{ review.user.username }}: ⭐ {{ review.rating }}/10</div>
+                        <p>{{ review.feedback }}</p>
+                        <div class="review-date">{{ review.date }}</div><br>
+                        {% if review.user == request.user %}
+                            <a href="{% url 'games:delete_review' review.id %}" class="delete">Удалить</a>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% else %} 
+                <p class="empty-message">Пока нет отзывов на эту игру.</p>
+            {% endif %}
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+body{
+    background-color: #1a1a2e;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+.header{
+    background-color: #16213e;;
+    padding: 20px;
+    margin: 0;
+}
+h1{
+    color: #4ecca3;
+    font-size: 40px;
+}
+.exit{
+    margin: 20px;
+    text-align: right;
+}
+.exit a{
+    color: #4ecca3;
+    font-size: 20px;
+    text-decoration: none;
+}
+.exit a:hover{
+    text-decoration: underline;
+}
