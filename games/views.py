@@ -45,8 +45,10 @@ def register(request):
             
 
 def person(request):
+    reviews = Review.objects.filter(user=request.user)
     context = {
-        "user":request.user
+        "user": request.user,
+        "reviews": reviews
     }
     return render(request, "games/person.html", context)
 

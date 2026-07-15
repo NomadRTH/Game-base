@@ -14,5 +14,24 @@
     <div class="exit"> 
         <a href="{% url 'logout' %}">Выйти</a> 
     </div>
+    <div class="Review-head">
+        Мои отзывы
+    </div>
+    <div class="Review">
+        {% if user.review_set.all %}
+            {% for review in reviews %}
+                <div class="review-card">   
+                    <div class="review-rating">{{ review.game.title }}: ⭐ {{ review.rating }}/10</div>
+                        <p class="feedback">{{ review.feedback }}</p>
+                    <div class="review-date">{{ review.date }}</div><br>
+                        {% if review.user == request.user %}
+                            <a href="{% url 'games:detail' review.game.id %}" class="about-link">Перейти к игре</a>
+                        {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+                <p class="No-review">Вы пока не оставили ни одного отзыва</p>
+        {% endif %}
+    </div>
 </body>
 </html>
